@@ -1,0 +1,52 @@
+server:
+  port: 12000
+  servlet:
+    context-path: /api/v1
+logging:
+  level:
+    .: info
+    cn.lhfei.databox: info
+    org.springframework: info
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+  file:
+    max-size: 1024M
+
+# Druid datasource settings:
+spring:
+  kafka:
+    consumer:
+      group-id: test
+      auto-offset-reset: earliest      enable-auto-commit: true
+    # change this property if you are using your own
+    # Kafka cluster or your Docker IP is different
+    bootstrap-servers: 192.168.136.15:9092,192.168.136.16:9092,192.168.136.144:9092 
+    producer:
+      acks: all
+      batch-size: 16384
+      buffer-memory: 33554432
+hbase:  zookeeper-quorum: 192.168.45.181,192.168.45.182,192.168.45.183
+  zookeeper-znode-parent: /hbase-unsecure
+  table-name: benchmark:paybill
+  columns-with-family:    b: account_detail_id,member_id,detail_create_date,balance_type,detail_amount,out_trade_no,trade_no,source_id,trade_desc,detail_desc,accountreqcode,trade_type
+    d: customer_id,new_account_no,account_no,account_name,account_balance,detail_modify_date,currency,biz_trade_no,original_trade_no,trade_sub_type,pay_type,trade_date,account_merchan_no,merchant_no,system_source,created_date,modified_date,trade_code,trade_code_name,evidence_no,remark,batch_no,category_code,relation_account_no,exes_type,bussiness_type,original_out_trade_no,card_holder_name,card_no,ext_encrypt,evidence_ext,bill_date,ext_min,ext_mid,ext_max,order_seq_no
+
+  
+kafka:  topic-name: paybill
+  group-id: test
+  partition: 1
+
+elastic:
+  index-name: paybill
+  hot-name: paybill
+  warm-name: paybill_2019
+  port: 9220
+  protocol: http  nodes:  - 192.168.135.124
+  - 192.168.135.205
+  - 192.168.135.224
+  - 192.168.135.226
+  - 192.168.135.226
+  
+swagger:
+  enabled: true
